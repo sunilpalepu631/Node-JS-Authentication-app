@@ -8,7 +8,7 @@ require('dotenv').config();
 const jwtSecret = process.env.JWT_SECRET_KEY
 console.log(jwtSecret);
 
-
+const sendMail = require('../helpers/nodemailer')
 
 
 
@@ -44,8 +44,6 @@ register = async (req, res, next) => {
     })
 
 }
-
-
 
 
 
@@ -102,7 +100,7 @@ login = async (req, res, next) => {
 // get all api
 getAllUsers = async (req, res, next) => {
     try {
-        const data = await User.find();
+        const data = await User.find();//{}, { password: 0 }
         res.status(200).json({ success: true, message: 'Successfully fetched all users', data });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -155,6 +153,65 @@ updateUser = async (req, res) => {
 }
 
 
+updatePassword = async (req, res, next) => {
+    try {
+
+        let email = req.body.email;
+        let password = req.body.password;
+        let confirm_password = req.body.confirm_password;
+        if (!email || !password || confirm_password) return res.status(422).json({ success: false, error: 'Email,password and confirm password is required' })
+        // Check if passwords match
+        if (password !== confirm_password) {
+            return res.status(400).json({ success: false, error: 'Password and confirm password should match' });
+        }
+
+        // Find user by email
+        let user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ success: false, error: 'Email not found' });
+        }
+
+        // Hash the new password
+        const hash = await bcrypt.hash(password, 10);
+
+        // Update user password
+        user.password = hash;
+        await user.save();
+
+        return res.status(200).json({ success: true, message: 'Successfully updated the password' });
+    } catch (error) {
+        return res.status(500).json({ success: false, error: error.message });
+    }
+};
+
+
+forgetPassword = async (req, res, next) => {
+    try {
+        let email = req.body.email
+
+        user = await User.findOne({ email })
+        if (!user) {
+            return res.status(404).json({ success: false, error: 'Email not found' })
+        }
+
+
+        const hostName = req.hostname;
+        const port = process.env.PORT
+
+        const message = `http://${hostName}:${port}/user/updatepassword`
+
+        response = await sendMail(email, message)
+        return res.status(200).json({ success: true, message: 'Email sent successful', response: response })
+    }
+    catch (error) {
+        return res.status(404).json({ success: false, error: 'email not found' })
+    }
+
+
+
+}
+
+
 // Delete api
 deleteUser = async (req, res) => {
     try {
@@ -200,6 +257,8 @@ module.exports = {
     deleteUser,
     getProfile,
     getAllUsers,
+    forgetPassword,
+    updatePassword
 }
 
 
