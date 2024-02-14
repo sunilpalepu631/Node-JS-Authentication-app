@@ -4,9 +4,7 @@ const User = require('../model/userModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 require('dotenv').config();
-// const validator = require('validator');
 const jwtSecret = process.env.JWT_SECRET_KEY
-console.log(jwtSecret);
 
 const sendMail = require('../helpers/nodemailer')
 const userFilters = require('../helpers/filters')
@@ -102,19 +100,41 @@ login = async (req, res, next) => {
 // get all api
 getAllUsers = async (req, res, next) => {
     try {
+        const { page = 1, limit = 100 } = req.query;
 
         query_filter = userFilters(req)
         query_sort = userSorting(req)
 
-        const users = await User.find(query_filter, { password: 0 }).sort(query_sort);
 
-        res.status(200).json({ success: true, message: 'Successfully fetched all users', users });
+
+        const query = User.find(query_filter, { password: 0 }).sort(query_sort)
+
+        //pagination
+        const users = await User.paginate(query, { page, limit });
+        // .limit(limit * 1)
+        // .skip((page - 1) * limit)
+        // .exec();
+
+
+        res.status(200).json({ success: true, message: 'Successfully fetched all users', data: users })
+        // res.status(200).json({ success: true, message: 'Successfully fetched all users', count: count, totalPages: Math.ceil(count / limit), currectPage: page, data: users });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
 };
 
 
+// // Get the underlying MongoDB collection associated with the model
+// const collection = User.collection;
+
+// // Retrieve information about all indexes in the collection
+// collection.getIndexes()
+//     .then(indexes => {
+//         console.log(indexes);
+//     })
+//     .catch(error => {
+//         console.error('Error getting indexes:', error);
+//     });
 
 
 
@@ -224,9 +244,6 @@ deleteUser = async (req, res) => {
     try {
         const user_id = req.user.id;
         const given_id = req.params.id
-
-
-        console.log(given_id === user_id)
 
         if (given_id !== user_id) {
             return res.status(403).json({ success: false, error: "you can not delete other user" })

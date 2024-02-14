@@ -3,16 +3,16 @@
 // query.sort({ username: 'asc' });
 
 let userSorting = (req) => {
-    const { sortBy, sortType } = req.query
+    const { sortBy = '_id', sortType = 'desc' } = req.query
 
     let query_sort = {}
 
     if (sortBy) {
         query_sort[sortBy] = sortType || 'desc'
     }
-    else {
-        query_sort._id = 'desc'
-    }
+    // else {
+    //     query_sort._id = 'desc'
+    // }
 
     // console.log('query sort', query_sort)
 

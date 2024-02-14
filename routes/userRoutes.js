@@ -4,11 +4,13 @@ const userController = require('../controllers/userControllers');
 const { BasicAuth } = require('../auth');
 const { validate, passwordValidate } = require('../middlewares/userValidators')
 
+
+
 // router.post('/register', regiter)
 router.route('/register').post(validate, userController.register);
 router.route('/login').post(userController.login);
 router.route('/forgetpassword').post(userController.forgetPassword);
-router.route('/updatepassword').get(passwordValidate, userController.updatePassword);
+router.route('/updatepassword').post(passwordValidate, userController.updatePassword);
 
 router.route('/getall').get(BasicAuth, userController.getAllUsers);
 router.route('/getprofile').get(BasicAuth, userController.getProfile);

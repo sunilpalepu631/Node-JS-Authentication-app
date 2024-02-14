@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 require('dotenv').config();
 
 const mongodbUri = process.env.MONGODB_URI
-console.log(mongodbUri);
 
 const connectionParams = {
     useNewUrlParser: true,

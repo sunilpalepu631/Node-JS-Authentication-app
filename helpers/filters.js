@@ -12,10 +12,10 @@ let userFilters = (req) => {
     if (username) {
         // query.username = /test/i;
         query.username = new RegExp(username, 'i');
-        console.log('uerey usernamer', query.username)
+        // console.log('uerey usernamer', query.username)
     }
     if (first_name) {
-        query.username = new RegExp(first_name, 'i');
+        query.first_name = new RegExp(first_name, 'i');
     }
     if (last_name) {
         query.last_name = new RegExp(last_name, 'i');
@@ -23,7 +23,7 @@ let userFilters = (req) => {
     if (email) {
         query.email = new RegExp(email, 'i');
     }
-
+    // console.log('query======', query)
     return query
 }
 
