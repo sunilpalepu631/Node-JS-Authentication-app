@@ -9,6 +9,8 @@ const jwtSecret = process.env.JWT_SECRET_KEY
 console.log(jwtSecret);
 
 const sendMail = require('../helpers/nodemailer')
+const userFilters = require('../helpers/filters')
+const userSorting = require('../helpers/sorting')
 
 
 
@@ -100,8 +102,13 @@ login = async (req, res, next) => {
 // get all api
 getAllUsers = async (req, res, next) => {
     try {
-        const data = await User.find();//{}, { password: 0 }
-        res.status(200).json({ success: true, message: 'Successfully fetched all users', data });
+
+        query_filter = userFilters(req)
+        query_sort = userSorting(req)
+
+        const users = await User.find(query_filter, { password: 0 }).sort(query_sort);
+
+        res.status(200).json({ success: true, message: 'Successfully fetched all users', users });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
