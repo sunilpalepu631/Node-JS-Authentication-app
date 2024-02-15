@@ -7,7 +7,10 @@ const taskController = require('../controllers/taskControllers')
 
 
 
-router.post('/add-task', BasicAuth, taskController.addTask)
-router.get('/getalltasks', BasicAuth, taskController.getAllTasks)
+router.get('/', BasicAuth, taskController.getAllTasks)
+router.post('/', BasicAuth, taskController.addTask)
+router.get('/:id', BasicAuth, taskController.getOne)
+router.put('/:id', BasicAuth, taskController.updateTask)
+router.delete('/:id', BasicAuth, taskController.deleteTask)
 
 module.exports = router

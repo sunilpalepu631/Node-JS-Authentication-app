@@ -168,10 +168,10 @@ updateUser = async (req, res) => {
         const result = await User.findByIdAndUpdate(
             user_id, updatedData, options
         )
-        res.status(200).json({ success: true, messge: 'Successfully updated user details', 'data': result })
+        res.status(200).json({ success: true, message: 'Successfully updated user details', 'data': result })
     }
     catch (error) {
-        res.status(400).json({ success: false, 'error': error.message })
+        res.status(500).json({ success: false, 'error': error.message })
     }
 }
 
@@ -251,7 +251,7 @@ deleteUser = async (req, res) => {
         res.json({ success: true, message: `Document with ${data.first_name} has been deleted...` })
     }
     catch (error) {
-        res.status(400).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, error: error.message })
     }
 }
 
