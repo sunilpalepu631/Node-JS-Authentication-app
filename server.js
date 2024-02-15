@@ -19,6 +19,7 @@ connectDB();
 app.listen(PORT, () => console.log(`Server Connected to port ${PORT}`))
 app.use(express.json())
 app.use('/user/', require('./routes/userRoutes'))
+app.use('/task/', require('./routes/taskRoutes'))
 
 
 const { BasicAuth } = require('./auth')

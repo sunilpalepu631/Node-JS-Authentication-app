@@ -6,8 +6,8 @@ function validate(req, res, next) {
 
     const { username, password, email, first_name, last_name } = req.body
 
-
     let errors = {}
+
     if (!validator.isStrongPassword(password)) {
         errors['password'] = ['Password must contain atleast one uppercase,lowercase,number,special_character']
 

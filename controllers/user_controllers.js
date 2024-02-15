@@ -1,6 +1,6 @@
 // userControllers
 
-const User = require('../model/userModel')
+const { User } = require('../model/userModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 require('dotenv').config();
@@ -15,8 +15,8 @@ const userSorting = require('../helpers/sorting')
 // register user api
 register = async (req, res, next) => {
 
-    const { username, password, email, first_name, last_name } = req.body
-
+    const { username, password, email, first_name, last_name, usertype } = req.body
+    // console.log('userrrrrrrtpe in contorllerss = ', usertype)
     // hashing password
     bcrypt.hash(password, 10).then(async (hash) => {
 
@@ -26,19 +26,15 @@ register = async (req, res, next) => {
             email,
             first_name,
             last_name,
+            usertype
+            // role,
         })
             .then(user => {
 
-                res.status(201).json({
-                    message: 'User succcessfully created',
-                    user: user,
-                });
+                res.status(201).json({ success: true, message: 'User succcessfully created', data: user, });
             })
             .catch((err) =>
-                res.status(400).json({
-                    message: 'User not successful created',
-                    error: err.message,
-                })
+                res.status(400).json({ success: false, message: 'User not successful created', error: err.message, })
 
             );
     })
