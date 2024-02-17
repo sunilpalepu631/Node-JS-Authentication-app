@@ -1,4 +1,4 @@
-
+//node mailer
 const nodemailer = require('nodemailer')
 
 require('dotenv').config();
@@ -6,7 +6,7 @@ require('dotenv').config();
 const EMAIL_HOST_USER = process.env.EMAIL_HOST_USER
 const EMAIL_HOST_PASSWORD = process.env.EMAIL_HOST_PASSWORD
 
-sendMail = async (email, message) => {
+let sendMail = async (email, message) => {
 
     let transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -19,7 +19,7 @@ sendMail = async (email, message) => {
     let mailOptions = {
         from: EMAIL_HOST_USER,
         to: email,
-        subject: 'Forgot password',
+        subject: 'Reset password',
         text: message
     };
 

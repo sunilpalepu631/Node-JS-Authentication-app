@@ -2,17 +2,15 @@
 
 
 
-let userFilters = (req) => {
+const userFilters = (filters) => {
     // Extract query parameters from the request
-    const { username, first_name, last_name, email } = req.query;
+    const { email, first_name, last_name } = filters;
 
     // Construct a MongoDB query object based on the received parameters
-    const query = {};
+    let query = {};
 
-    if (username) {
-        // query.username = /test/i;
-        query.username = new RegExp(username, 'i');
-        // console.log('uerey usernamer', query.username)
+    if (email) {
+        query.email = new RegExp(email, 'i');
     }
     if (first_name) {
         query.first_name = new RegExp(first_name, 'i');
@@ -20,11 +18,26 @@ let userFilters = (req) => {
     if (last_name) {
         query.last_name = new RegExp(last_name, 'i');
     }
-    if (email) {
-        query.email = new RegExp(email, 'i');
-    }
-    // console.log('query======', query)
+
     return query
 }
 
-module.exports = userFilters
+
+
+
+
+const taskFilters = (req) => {
+
+    const filter = {}
+
+    if (req.user.usertype === 'USER') {
+        filter.user_id = req.user.id
+    }
+
+    return filter
+}
+
+
+
+
+module.exports = { userFilters, taskFilters }

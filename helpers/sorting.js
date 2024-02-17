@@ -2,8 +2,8 @@
 // sort by "field" ascending and "test" descending
 // query.sort({ username: 'asc' });
 
-let userSorting = (req) => {
-    const { sortBy = '_id', sortType = 'desc' } = req.query
+let userSorting = (query) => {
+    const { sortBy = '_id', sortType = 'desc' } = query
 
     let query_sort = {}
 
@@ -21,5 +21,19 @@ let userSorting = (req) => {
 
 
 
+let taskSorting = (query) => {
+    const { sortBy = '_id', sortType = 'desc' } = query
 
-module.exports = userSorting
+    let query_sort = {}
+
+    if (sortBy) {
+        query_sort[sortBy] = sortType
+    }
+
+    return query_sort
+}
+
+
+
+
+module.exports = { userSorting, taskSorting }

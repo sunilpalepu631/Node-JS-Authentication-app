@@ -1,26 +1,28 @@
+/*
+user routes
+*/
+
 const express = require('express')
 const router = express.Router()
 const userController = require('../controllers/user_controllers');
 const { BasicAuth, AdminAuth } = require('../auth');
-const { validate, passwordValidate } = require('../middlewares/userValidators')
+const { validationMiddleware, userRegisterSchema, userLoginSchema, updateUserPasswordSchema, } = require('../middlewares/joiUserValidators');
 
 
 
-// router.post('/register', regiter)
-router.route('/register').post(validate, userController.register);
 
+router.post('/register', validationMiddleware(userRegisterSchema), userController.register)
+router.post('/login', validationMiddleware(userLoginSchema), userController.login);
 
-router.route('/login').post(userController.login);
-router.route('/forgetpassword').post(userController.forgetPassword);
-router.route('/updatepassword').post(passwordValidate, userController.updatePassword);
+router.post('/forgetpassword', userController.forgetPassword);
+router.post('/updatepassword', validationMiddleware(updateUserPasswordSchema), userController.updatePassword);
 
-router.route('/getall').get(BasicAuth, AdminAuth, userController.getAllUsers);
-router.route('/getprofile').get(BasicAuth, userController.getProfile);
-// router.route('/getoneuser').get(BasicAuth, userController.getUserById);
+router.get('/', BasicAuth, AdminAuth, userController.getAllUsers);
+router.get('/getone/:id', BasicAuth, AdminAuth, userController.getOneUser);
+router.get('/getprofile', BasicAuth, userController.getProfile);
 
-router.route('/update/:id').put(BasicAuth, userController.updateUser)
-router.route('/delete/:id').delete(BasicAuth, userController.deleteUser)
-
+router.put('/:id', BasicAuth, userController.updateUser)
+router.delete('/:id', BasicAuth, userController.deleteUser)
 
 
 module.exports = router
