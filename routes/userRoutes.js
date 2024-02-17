@@ -5,7 +5,7 @@ user routes
 const express = require('express')
 const router = express.Router()
 const userController = require('../controllers/user_controllers');
-const { BasicAuth, AdminAuth } = require('../auth');
+const { BasicAuth, AdminAuth } = require('../middlewares/auth');
 const { validationMiddleware, userRegisterSchema, userLoginSchema, updateUserPasswordSchema, } = require('../middlewares/joiUserValidators');
 
 

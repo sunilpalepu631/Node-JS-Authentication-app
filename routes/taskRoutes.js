@@ -3,7 +3,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { BasicAuth, AdminAuth } = require('../auth');
+const { BasicAuth, AdminAuth } = require('../middlewares/auth');
 const taskController = require('../controllers/taskControllers');
 const { validationMiddleware, taskAddSchema } = require('../middlewares/joiUserValidators');
 

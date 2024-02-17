@@ -21,7 +21,3 @@ app.use(express.json())
 app.use('/user/', require('./routes/userRoutes'))
 app.use('/task/', require('./routes/taskRoutes'))
 
-
-const { BasicAuth } = require('./auth')
-
-app.get('/basic', BasicAuth, (req, res) => res.send('Basic Route'))
