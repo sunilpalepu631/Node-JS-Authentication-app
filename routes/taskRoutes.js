@@ -4,10 +4,10 @@ const express = require('express')
 const router = express.Router()
 
 const { BasicAuth, AdminAuth } = require('../middlewares/auth');
-const taskController = require('../controllers/taskControllers');
+const TaskController = require('../controllers/taskControllers');
 const { validationMiddleware, taskAddSchema } = require('../middlewares/joiUserValidators');
 
-
+const taskController = new TaskController()
 
 router.get('/', BasicAuth, taskController.getAllTasks)
 router.post('/', BasicAuth, validationMiddleware(taskAddSchema), taskController.addTask)

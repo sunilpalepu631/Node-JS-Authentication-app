@@ -1,16 +1,23 @@
+//message constants
+
+
+
 module.exports = Object.freeze({
-    FETECHED_TASKS: "Successfully fetched tasks",
-    FETCHED_TASK: "Successfully fetched task",
+
+    //TASKS
     TASK_CREATED: 'Successfully created task',
+    FETCHED_TASK: "Successfully fetched task",
+    NOT_AUTH_TO_VIEW: 'You are not authorized to view this task',
+    FETECHED_TASKS: "Successfully fetched tasks",
+    TASK_NOT_FOUND: 'Task not found',
     UPDATED_TASK: 'Successfully updated task',
     NOT_AUTH_TO_UPDATE: 'You are not authorized to update this task',
-    NOT_AUTH_TO_VIEW: 'You are not authorized to view this task',
-    NOT_AUTH_TO_DELETE: 'You are not authorized to delete this task',
-    TASK_NOT_EXIST: 'Task does not exists',
     TASK_DELETED: 'Task deleted successfully',
+    NOT_AUTH_TO_DELETE: 'You are not authorized to delete this task',
+    USER_ID_FIELD_REQUIRED: 'user_id field is required',
 
 
-
+    //USERS
     SUCCESS_RETRIEVED_USER: 'Successfylly retrieved one user',
     USER_NOT_FOUND: "User not found",
     LOGIN_SUCCESS: "User successfully login",
@@ -30,6 +37,14 @@ module.exports = Object.freeze({
     PROVIDE_EMAIL: "Please provide email address to reset your password",
     WRONG_EMAIL: 'You entered email is not rgistered with us, Please register.',
     CHECK_EMAIL: 'Please check your email for reset password',
+    EMAIL_SENT: 'Email sent successfully',
+
+
+    //authentication
+    TOKEN_REQUIRED: 'Token required',
+    INVALID_TOKEN: 'Invalid token',
+    ACCESS_DENIED: 'Access denied, you do not have permission'
+
 })
 
 

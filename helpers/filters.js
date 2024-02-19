@@ -33,6 +33,12 @@ const taskFilters = (req) => {
     if (req.user.usertype === 'USER') {
         filter.user_id = req.user.id
     }
+    if (req.query.title) {
+        filter.title = req.query.title
+    }
+    if (req.query.user_id) {
+        filter.user_id = req.query.user_id
+    }
 
     return filter
 }

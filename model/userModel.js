@@ -1,7 +1,6 @@
 // user models
 
 const mongoose = require('mongoose')
-const mongoosePaginate = require('mongoose-paginate-v2');
 
 const UserSchema = mongoose.Schema({
     email: { type: String, unique: true, required: true },
@@ -22,13 +21,12 @@ const UserSchema = mongoose.Schema({
 
 
 const TaskSchema = mongoose.Schema({
-    task: { type: String, unique: true },
+    task: { type: String, unique: false },
     description: { type: String, required: false },
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true, required: true }
 }, { timestamps: true })
 
 
-UserSchema.plugin(mongoosePaginate);
 
 const User = mongoose.model('User', UserSchema);
 const Tasks = mongoose.model('Tasks', TaskSchema)
